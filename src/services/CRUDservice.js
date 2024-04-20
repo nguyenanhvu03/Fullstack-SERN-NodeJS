@@ -81,7 +81,7 @@ let updateUserData = (data) => {
             let user = await db.User.findOne({
                 where: { id: data.id }
             })
-            if(user){
+            if (user) {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
                 user.address = data.address;
@@ -92,11 +92,29 @@ let updateUserData = (data) => {
 
                 resolve(allUsers);
             }
-            else{
+            else {
                 resolve();
             }
         } catch (e) {
             console.log(e)
+        }
+    })
+}
+
+let deleteUserById = (userId) => {
+    return new Promise(async (resolve, rejject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: userId }
+            })
+            if(user){
+                await user.destroy();
+            }
+
+            resolve();
+        } catch (e) {
+            rejject(e)
+                ;
         }
     })
 }
@@ -106,4 +124,5 @@ module.exports = {
     getAllUser,
     getUserInfoById,
     updateUserData,
+    deleteUserById,
 }
