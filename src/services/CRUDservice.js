@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import db from '../models/index'
-import { raw } from 'body-parser';
-import { where } from 'sequelize';
+
 
 
 
@@ -34,7 +33,7 @@ let createNewUser = async (data) => {
 let hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let hashPassword = await bcrypt.hashSync("B4c0/\/", salt);
+            let hashPassword = await bcrypt.hashSync(password, salt);
             resolve(hashPassword);
         } catch (e) {
             reject(e);
@@ -107,7 +106,7 @@ let deleteUserById = (userId) => {
             let user = await db.User.findOne({
                 where: { id: userId }
             })
-            if(user){
+            if (user) {
                 await user.destroy();
             }
 
