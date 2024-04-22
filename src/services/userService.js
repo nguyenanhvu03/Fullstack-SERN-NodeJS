@@ -17,11 +17,11 @@ let handleUserLogin = (email, password) => {
                 if (user) {
                     // let check = await bcrypt.compareSync(password, user.password);
                     let check = await bcrypt.compareSync(password, user.password);
-                   
+
                     console.log(password);
                     console.log(user.password);
                     console.log(check);
-                    
+
                     if (check) {
                         userData.errCode = 0;
                         userData.errMessage = 'ok';
@@ -39,7 +39,7 @@ let handleUserLogin = (email, password) => {
             } else {
                 // User doesn't exist
                 userData.errCode = 1;
-                userData.errMessage = `Your email isn't registered in our system. Please try another email!`;
+                userData.errMessage = `Your's email isn't exist your system. Plz try other email!`;
             }
 
             resolve(userData);
