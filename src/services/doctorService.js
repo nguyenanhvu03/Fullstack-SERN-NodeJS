@@ -1,6 +1,6 @@
 import db from '../models/index';
 require('dotenv').config();
-import _ from 'lodash'
+import _, { reject } from 'lodash'
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let getTopDoctorHome = (limitInput) => {
@@ -158,15 +158,8 @@ let bulkCreateSchedule = (data) => {
                     }
                 );
 
-                if (existing && existing.length > 0) {
-                    existing = existing.map(item => {
-                        item.date = new Date(item.date).getTime();
-                        return item;
-                    })
-                }
-
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
-                    return a.timeType === b.timeType && a.date === b.date;
+                    return a.timeType === b.timeType && +a.date === +b.date;
                 });
                 if (toCreate && toCreate.length > 0) {
                     await db.Schedule.bulkCreate(toCreate)
@@ -181,6 +174,34 @@ let bulkCreateSchedule = (data) => {
         }
     })
 }
+
+let getScheduleByDate = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Erro'
+                })
+            } else {
+                let data = await db.Schedule.findAll({
+                    where: {
+                        doctorId: doctorId,
+                        date: date,
+                    }
+                })
+                if (!data) data = [];
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
-    getTopDoctorHome, getAllDoctors, saveDetailInforDoctor, getDetailDoctorById, bulkCreateSchedule
+    getTopDoctorHome, getAllDoctors, saveDetailInforDoctor, getDetailDoctorById, bulkCreateSchedule, getScheduleByDate
 }
