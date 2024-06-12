@@ -38,7 +38,7 @@ module.exports = {
       count: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        toDefaultValue: 0
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,
