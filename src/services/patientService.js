@@ -10,7 +10,7 @@ let postBookAppointment = (data) => {
                     errMessage: 'Missing parameter'
                 })
             } else {
-                //upsert patient
+                // Upsert patient
                 let user = await db.User.findOrCreate({
                     where: { email: data.email },
                     defaults: {
@@ -18,12 +18,14 @@ let postBookAppointment = (data) => {
                         roleId: 'R3'
                     },
                     raw: true
-                })
-                console.log('>>>>>>', user[0])
-                //create a booking record
+                });
+
+                console.log('>>>>>>', user[0]);
+
+                // Create a booking record
                 if (user && user[0]) {
                     await db.Booking.findOrCreate({
-                        where: {patientId: user[0].id},
+                        where: { patientId: user[0].id },
                         defaults: {
                             statusId: 'S1',
                             doctorId: data.doctorId,
@@ -31,21 +33,21 @@ let postBookAppointment = (data) => {
                             date: data.date,
                             timeType: data.timeType
                         }
-                        
-                    })
+                    });
                 }
 
                 resolve({
                     errCode: 0,
-                    errMessage: 'Save infor patient succeed'
-                })
+                    errMessage: 'Save patient information succeed'
+                });
             }
 
         } catch (e) {
-            reject(e)
+            reject(e);
         }
-    })
-}
+    });
+};
+
 
 module.exports = {
     postBookAppointment
