@@ -109,13 +109,13 @@ let saveDetailInforDoctor = (inputData) => {
                     //create
                     await db.Doctor_Infor.create({
                         doctorId: inputData.doctorId,
-                        priceId : inputData.selectedPrice,
-                        provinceId : inputData.selectedProvince,
-                        paymentId : inputData.selectedPayment,
+                        priceId: inputData.selectedPrice,
+                        provinceId: inputData.selectedProvince,
+                        paymentId: inputData.selectedPayment,
 
-                        nameClinic : inputData.nameClinic,
-                        addressClinic : inputData.addressClinic,
-                        note : inputData.note,
+                        nameClinic: inputData.nameClinic,
+                        addressClinic: inputData.addressClinic,
+                        note: inputData.note,
                     })
                 }
                 resolve({
@@ -154,9 +154,9 @@ let getDetailDoctorById = (inputId) => {
                                 exclude: ['id', 'doctorId']
                             },
                             include: [
-                                {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
-                                {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
-                                {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
+                                { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
                             ]
                         },
                     ],
@@ -236,8 +236,10 @@ let getScheduleByDate = (doctorId, date) => {
                         date: date,
                     },
                     include: [
-                        { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] }, 
+                        { model: db.User, as: 'doctorData', attributes: ['firstName', 'lastName'] },
                     ],
+
                     raw: false,
                     nest: true
                 })
@@ -254,14 +256,14 @@ let getScheduleByDate = (doctorId, date) => {
     })
 }
 let getExtraInforDoctorById = (idInput) => {
-    return new Promise(async(resolve, reject) =>{
-        try{
-            if(!idInput){
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!idInput) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters'
                 })
-            }else{
+            } else {
                 let data = await db.Doctor_Infor.findOne({
                     where: {
                         doctorId: idInput
@@ -270,20 +272,20 @@ let getExtraInforDoctorById = (idInput) => {
                         exclude: ['id', 'doctorId']
                     },
                     include: [
-                        {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
-                        {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
-                        {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
+                        { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
                     ],
                     raw: false,
                     nest: true
                 })
-                if(!data) data = {};
+                if (!data) data = {};
                 resolve({
                     errCode: 0,
                     data: data
                 })
             }
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
@@ -291,13 +293,13 @@ let getExtraInforDoctorById = (idInput) => {
 
 let getProfileDoctorById = (inputId) => {
     return new Promise(async (resolve, reject) => {
-        try{
-            if(!inputId){
+        try {
+            if (!inputId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters'
                 })
-            }else{
+            } else {
                 let data = await db.User.findOne({
                     where: {
                         id: inputId
@@ -314,9 +316,9 @@ let getProfileDoctorById = (inputId) => {
                                 exclude: ['id', 'doctorId']
                             },
                             include: [
-                                {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
-                                {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
-                                {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
+                                { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
                             ]
                         },
                     ],
@@ -334,7 +336,7 @@ let getProfileDoctorById = (inputId) => {
                     data: data
                 })
             }
-        }catch(e){
+        } catch (e) {
             reject(e)
         }
     })
