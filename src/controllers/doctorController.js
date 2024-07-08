@@ -116,5 +116,6 @@ let getProfileDoctorById= async (req, res) => {
 module.exports = {
     getTopDoctorHome, getAllDoctors, postInforDoctor, 
     getDetailDoctorById, bulkCreateSchedule, getScheduleByDate,
-    getExtraInforDoctorById, getProfileDoctorById
+    getExtraInforDoctorById, getProfileDoctorById,
+    
 }
