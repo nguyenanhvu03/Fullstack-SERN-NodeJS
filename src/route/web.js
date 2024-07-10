@@ -43,6 +43,7 @@ let initWebRoutes = (app) => {
 
 
 
+
     router.get('/abc', (req, res) => {
         return res.send('hello world check abc')
     });
